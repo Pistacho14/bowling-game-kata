@@ -1,16 +1,32 @@
 class Score_card:
 
-    def __init__(self, score_card):
-        self.pins = score_card
-        self.pins_list = []
+    SPAIR = "/"
+    STRIKE = "X"
+    FOUL = "-"
+    ROLLS_LAST_FRAME = 3
+    ROLLS_STRIKE = 1
+    NORMAL_FRAMES_ROLLS = 2
 
-    def __score_card_cleaner(self):
-        counter = 0
+    def __init__(self, pins):
+        self.pins = pins
+        self.frames = []
+
+    def split_frames(self):
         index = 0
-        MAX_ROUNDS = 10
-        while counter < MAX_ROUNDS:
-            self.pins_list.append(list(self.pins[index:index+1]))
-            counter += 1
-        self.pins_list.append(list(self.pins[17::]))
-        
-        return self.pins_list
+
+        for _ in range(9):
+            roll = self.pins[index]
+
+            if roll == "X":
+                frame = ["X"]
+                index += Score_card.ROLLS_STRIKE
+            else:
+                frame = [roll, self.pins[index + 1]]
+                index += Score_card.NORMAL_FRAMES_ROLLS
+
+            self.frames.append(frame)
+
+        last_frame = list(self.pins[index:index + Score_card.ROLLS_LAST_FRAME])
+        self.frames.append(last_frame)
+
+        return self.frames
