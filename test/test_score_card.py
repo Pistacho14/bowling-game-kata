@@ -104,3 +104,25 @@ def test_triple_strike_before_extra_rolls():
     total = 300
     score_card = Score_card(pins)
     assert score_card == total
+
+@pytest.mark.extra_rolls
+def test_split_frames_extra_roll():
+    pins = "1212121212121212129/1"
+    score_card = Score_card(pins)
+    frames = score_card.split_frames()
+    assert frames == [
+        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
+        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
+        ['9', '/', '1']
+    ]
+
+@pytest.mark.state_n
+def test_split_frames_rolls():
+    pins = "1212121212121212129-"
+    score_card = Score_card(pins)
+    frames = score_card.split_frames()
+    assert frames == [
+        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
+        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
+        ['9', '-']
+    ]
