@@ -9,7 +9,7 @@ class Score_card:
     NORMAL_FRAMES_ROLLS = 2
 
     def __init__(self, pins):
-        self.pins = pins
+        self.pins = pins.replace("-", "0") #Reemplazar los fouls por 0
         self.frames = []
 
     def get_pins(self):
@@ -51,9 +51,6 @@ class Score_card:
             if frame[0].isnumeric() and frame[1].isnumeric():
                 score += reduce(lambda x, y: int(x) + int(y), frame)
                 score_card_index += 1
-            elif Score_card.FOUL in frame:
-                frame[frame.index(Score_card.FOUL)] = 0
-                score += reduce(lambda x, y: int(x) + int(y), frame)
             elif frame[-1] == Score_card.SPAIR:
                 score += 10 + int(self.get_frames()[score_card_index + 1][0])
                 score_card_index += 1
