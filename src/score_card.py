@@ -11,6 +11,18 @@ class Score_card:
         self.pins = pins
         self.frames = []
 
+    def get_pins(self):
+        return self.pins
+
+    def get_frames(self):
+        return self.frames
+
+    def set_pins(self, pins):
+        self.pins = pins
+
+    def set_frames(self, frames):
+        self.frames = frames
+
     def _split_frames(self):
         index = 0
 
