@@ -31,7 +31,8 @@ def test_hitting_pins_regular():
     pins = "12345123451234512345"
     total = 60
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.state_n
 def test_symbol_zero():
@@ -39,20 +40,23 @@ def test_symbol_zero():
     pins = "9-9-9-9-9-9-9-9-9-9-"
     total = 90
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
     pins = "9-3561368153258-7181"
     total = 82
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.spare
 def test_spare_not_extra():
     # test spare not extra
-    pins = "9-3/613/815/-/8-7/8-"
+    pins = "9-3/613/815/-/8-7/8-"           # Este caso test no pasa por que en el turno 7 hay un "-" en la primera tirada.
     total = 121
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.strike
 def test_strike():
@@ -86,15 +90,17 @@ def test_three_strikes():
 @pytest.mark.extra_rolls
 def test_one_pin_in_extra_roll():
     # one pin in extra roll
-    pins = "9-3/613/815/-/8-7/8/8"
+    pins = "9-3/613/815/-/8-7/8/8"          # Este no pasa por que en la ultima tirada hay 3 numeros.
     total = 131
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
     pins = "5/5/5/5/5/5/5/5/5/5/5"
     total = 150
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.extra_rolls
 def test_two_strikes_in_extra_rolls():
