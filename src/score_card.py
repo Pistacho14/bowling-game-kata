@@ -1,5 +1,6 @@
-class Score_card:
+from functools import reduce
 
+class Score_card:
     SPAIR = "/"
     STRIKE = "X"
     FOUL = "-"
@@ -38,7 +39,25 @@ class Score_card:
 
             self.frames.append(frame)
 
-        last_frame = list(self.pins[index:index + Score_card.ROLLS_LAST_FRAME])
+        last_frame = list(self.pins[index : index + Score_card.ROLLS_LAST_FRAME])
         self.frames.append(last_frame)
 
         return self.frames
+
+    def score_calculator(self):
+        score = 0
+        score_card_index = 0
+        for frame in self.frames:
+            if frame[0].isnumeric() and frame[1].isnumeric():
+                score += reduce(lambda x, y: int(x) + int(y), frame)
+                score_card_index += 1
+            elif Score_card.FOUL in frame:
+                frame[frame.index(Score_card.FOUL)] = 0
+                score += reduce(lambda x, y: int(x) + int(y), frame)
+            elif frame[-1] == Score_card.SPAIR:
+                score += 10 + int(self.get_frames()[score_card_index + 1][0])
+                score_card_index += 1
+            else:
+                continue
+
+        return score
