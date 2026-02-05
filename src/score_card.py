@@ -11,7 +11,7 @@ class Score_card:
         self.pins = pins
         self.frames = []
 
-    def split_frames(self):
+    def _split_frames(self):
         index = 0
 
         for _ in range(9):
