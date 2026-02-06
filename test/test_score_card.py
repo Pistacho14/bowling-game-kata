@@ -24,6 +24,42 @@ def test_frames_rolls():
         ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
         ['9', '0']
     ]
+
+@pytest.mark.state_n
+def test_numerical_frames_rolls():
+    pins = "1212121212121212129-"
+    score_card = Score_card(pins)
+    score_card._split_frames()
+    frames = score_card.get_numerical_frames()
+    assert frames == [
+        [1, 2], [1, 2], [1, 2], [1, 2], [1, 2],
+        [1, 2], [1, 2], [1, 2], [1, 2],
+        [9, 0]
+    ]
+
+@pytest.mark.state_n
+def test_numerical_frames_rolls_strike():
+    pins = "X12X1212121212129-"
+    score_card = Score_card(pins)
+    score_card._split_frames()
+    frames = score_card.get_numerical_frames()
+    assert frames == [
+        [10], [1, 2], [10], [1, 2], [1, 2],
+        [1, 2], [1, 2], [1, 2], [1, 2],
+        [9, 0]
+    ]
+
+@pytest.mark.state_n
+def test_numerical_frames_rolls_spare():
+    pins = "1/121/1212121212129-"
+    score_card = Score_card(pins)
+    score_card._split_frames()
+    frames = score_card.get_numerical_frames()
+    assert frames == [
+        [1, 9], [1, 2], [1, 9], [1, 2], [1, 2],
+        [1, 2], [1, 2], [1, 2], [1, 2],
+        [9, 0]
+    ]
     
 @pytest.mark.state_n
 def test_hitting_pins_regular():
