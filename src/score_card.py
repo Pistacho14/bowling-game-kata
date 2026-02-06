@@ -1,12 +1,7 @@
 from functools import reduce
+from .pins import Pins
 
 class Score_card:
-    SPAIR = "/"
-    STRIKE = "X"
-    FOUL = "-"
-    ROLLS_LAST_FRAME = 3
-    ROLLS_STRIKE = 1
-    NORMAL_FRAMES_ROLLS = 2
 
     def __init__(self, pins):
         self.pins = pins.replace("-", "0") #Reemplazar los fouls por 0
@@ -30,16 +25,16 @@ class Score_card:
         for _ in range(9):
             roll = self.pins[index]
 
-            if roll == "X":
-                frame = ["X"]
-                index += Score_card.ROLLS_STRIKE
+            if roll == Pins.STRIKE.value[0]:
+                frame = [Pins.STRIKE.value[0]]
+                index += Pins.ROLLS_STRIKE
             else:
                 frame = [roll, self.pins[index + 1]]
-                index += Score_card.NORMAL_FRAMES_ROLLS
+                index += Pins.NORMAL_FRAMES_ROLLS.value
 
             self.frames.append(frame)
 
-        last_frame = list(self.pins[index : index + Score_card.ROLLS_LAST_FRAME])
+        last_frame = list(self.pins[index : index + Pins.ROLLS_LAST_FRAME.value])
         self.frames.append(last_frame)
 
         return self.frames
@@ -48,10 +43,10 @@ class Score_card:
         score = 0
         score_card_index = 0
         for frame in self.frames:
-            if frame[0].isnumeric() and frame[1].isnumeric():
+            if Score_card._common_roll(frame):
                 score += reduce(lambda x, y: int(x) + int(y), frame)
                 score_card_index += 1
-            elif frame[-1] == Score_card.SPAIR:
+            elif frame[-1] == Pins.SPAIR.value[0]:
                 score += 10 + int(self.get_frames()[score_card_index + 1][0])
                 score_card_index += 1
             else:
