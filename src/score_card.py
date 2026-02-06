@@ -53,3 +53,10 @@ class Score_card:
                 continue
 
         return score
+    
+    @staticmethod
+    def _common_roll(frame):
+        return frame[0].isnumeric() and frame[1].isnumeric()
+
+    def __repr__(self):
+        return Score_card.get_frames()
