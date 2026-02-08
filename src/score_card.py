@@ -8,7 +8,7 @@ class Score_card:
         self.frames = []
         self.numerical_frames = []
 
-#-------------------------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------------------------------
     def get_pins(self):
         return self.pins
 
@@ -23,7 +23,8 @@ class Score_card:
 
     def set_frames(self, frames):
         self.frames = frames
-# ------------------------------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------------------------------
 
     def _split_frames(self):
         index = 0
@@ -40,7 +41,7 @@ class Score_card:
                 frame = [roll, Pins.SPAIR.value[0]]
                 numerical_frame = [int(roll), Pins.TEN.value - int(roll)]
                 index += Pins.NORMAL_FRAMES_ROLLS.value
-                
+
             else:
                 frame = [roll, self.pins[index + 1]]
                 numerical_frame = [int(roll), int(self.pins[index + 1])]
@@ -65,34 +66,49 @@ class Score_card:
         self.numerical_frames.append(last_numerical_frame)
 
         return self.frames, self.numerical_frames
-#-------------------------------------------------------------------------------------------------
 
+    # -------------------------------------------------------------------------------------------------
 
     def score_calculator(self):
         score = 0
         score_card_index = 0
         for frame in self.frames[:-1]:
             if Score_card._common_roll(frame):
-                score += reduce(lambda x, y: x + y, Score_card.get_numerical_frames(self)[score_card_index])
+                score += reduce(
+                    lambda x, y: x + y,
+                    Score_card.get_numerical_frames(self)[score_card_index],
+                )
                 score_card_index += 1
             elif Score_card._spair_roll(frame):
-                score += 10 + Score_card.get_numerical_frames(self)[score_card_index + 1][0]
+                score += (
+                    10 + Score_card.get_numerical_frames(self)[score_card_index + 1][0]
+                )
                 score_card_index += 1
             else:
                 if Score_card._check_next_frame(self, score_card_index):
-                    score += 10 + sum(Score_card.get_numerical_frames(self)[score_card_index + 1][0:2])
+                    score += 10 + sum(
+                        Score_card.get_numerical_frames(self)[score_card_index + 1][0:2]
+                    )
                     score_card_index += 1
                 else:
-                    score += 10 + Score_card.get_numerical_frames(self)[score_card_index + 1][0] + Score_card.get_numerical_frames(self)[score_card_index + 2][0]
+                    score += (
+                        10
+                        + Score_card.get_numerical_frames(self)[score_card_index + 1][0]
+                        + Score_card.get_numerical_frames(self)[score_card_index + 2][0]
+                    )
                     score_card_index += 1
-        
+
         score += sum(Score_card.get_numerical_frames(self)[-1])
 
         return score
 
-    def _check_next_frame(self,score_card_index):
-        return True if len(Score_card.get_numerical_frames(self)[score_card_index + 1]) >= 2 else False
-    
+    def _check_next_frame(self, score_card_index):
+        return (
+            True
+            if len(Score_card.get_numerical_frames(self)[score_card_index + 1]) >= 2
+            else False
+        )
+
     @staticmethod
     def _common_roll(frame):
         return frame[0].isnumeric() and frame[1].isnumeric()
