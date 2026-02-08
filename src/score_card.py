@@ -83,9 +83,16 @@ class Score_card:
 
         return score
 
+    def _check_next_frame(self,score_card_index):
+        return True if len(Score_card.get_numerical_frames(self)[score_card_index + 1]) >= 2 else False
+    
     @staticmethod
     def _common_roll(frame):
         return frame[0].isnumeric() and frame[1].isnumeric()
+
+    @staticmethod
+    def _spair_roll(frame):
+        return frame[-1] == Pins.SPAIR.value[0]
 
     def __repr__(self):
         return Score_card.get_frames()
