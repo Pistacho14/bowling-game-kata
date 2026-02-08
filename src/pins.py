@@ -1,8 +1,8 @@
 from enum import Enum
 
 class Pins(Enum):
-    SPAIR = ["/", lambda x, y: x - y]
-    STRIKE = ["X", 10]
+    SPAIR = "/"
+    STRIKE = "X"
     FOUL = "0"
     TEN = 10
     ZERO = 0
