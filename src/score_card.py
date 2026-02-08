@@ -1,4 +1,3 @@
-from functools import reduce
 from .pins import Pins
 
 
@@ -76,8 +75,7 @@ class Score_card:
         score_card_index = 0
         for frame in Score_card.get_frames(self)[:-1]:
             if Score_card._common_roll(frame):
-                score += reduce(
-                    lambda x, y: x + y,
+                score += sum(
                     Score_card.get_numerical_frames(self)[score_card_index],
                 )
                 score_card_index += 1
