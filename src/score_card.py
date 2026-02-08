@@ -109,4 +109,4 @@ class ScoreCard:
         return frame[-1] == Pins.SPAIR.value
 
     def __repr__(self):
-        return ScoreCard.get_frames()
+        return self.pins
