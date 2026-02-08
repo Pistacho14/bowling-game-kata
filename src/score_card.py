@@ -85,7 +85,7 @@ class Score_card:
                 )
                 score_card_index += 1
             else:
-                if Score_card._check_next_frame(self, score_card_index):
+                if Score_card._check_next_frame(Score_card.get_numerical_frames(self)[score_card_index + 1]):
                     score += 10 + sum(
                         Score_card.get_numerical_frames(self)[score_card_index + 1][0:2]
                     )
@@ -102,10 +102,11 @@ class Score_card:
 
         return score
 
-    def _check_next_frame(self, score_card_index):
+    @staticmethod
+    def _check_next_frame(next_frame):
         return (
             True
-            if len(Score_card.get_numerical_frames(self)[score_card_index + 1]) >= 2
+            if len(next_frame) >= 2
             else False
         )
 
