@@ -3,11 +3,10 @@ from .pins import Pins
 
 class ScoreCard:
     def __init__(self, pins):
-        self.pins = pins.replace("-", "0")  # Reemplazar los fouls por 0
+        self.pins = pins.replace("-", "0")
         self.frames = []
         self.clean_frames = []
 
-    # -------------------------------------------------------------------------------------------------
     def get_pins(self):
         return self.pins
 
@@ -22,8 +21,6 @@ class ScoreCard:
 
     def set_frames(self, frames):
         self.frames = frames
-
-    # ------------------------------------------------------------------------------------------------
 
     def _split_frames(self):
         index = 0
@@ -63,8 +60,6 @@ class ScoreCard:
         self.clean_frames.append(last_numerical_frame)
 
         return self.frames, self.clean_frames
-
-    # -------------------------------------------------------------------------------------------------
 
     def score_calculator(self):
         score = 0
