@@ -30,20 +30,20 @@ class Score_card:
         index = 0
 
         for _ in range(9):
-            roll = self.pins[index]
+            roll = Score_card.get_pins(self)[index]
 
             if roll == Pins.STRIKE.value[0]:
                 frame = [Pins.STRIKE.value[0]]
                 numerical_frame = [Pins.TEN.value]
                 index += Pins.ROLLS_STRIKE.value
 
-            elif self.pins[index + 1] == Pins.SPAIR.value[0]:
+            elif Score_card.get_pins(self)[index + 1] == Pins.SPAIR.value[0]:
                 frame = [roll, Pins.SPAIR.value[0]]
                 numerical_frame = [int(roll), Pins.TEN.value - int(roll)]
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
             else:
-                frame = [roll, self.pins[index + 1]]
+                frame = [roll, Score_card.get_pins(self)[index + 1]]
                 numerical_frame = [int(roll), int(self.pins[index + 1])]
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
@@ -54,7 +54,7 @@ class Score_card:
 
         last_numerical_frame = []
 
-        for roll in self.pins[index : index + Pins.ROLLS_LAST_FRAME.value]:
+        for roll in Score_card.get_pins(self)[index : index + Pins.ROLLS_LAST_FRAME.value]:
             if roll == Pins.STRIKE.value[0]:
                 last_numerical_frame.append(Pins.TEN.value)
             elif roll == Pins.SPAIR.value[0]:
@@ -72,7 +72,7 @@ class Score_card:
     def score_calculator(self):
         score = 0
         score_card_index = 0
-        for frame in self.frames[:-1]:
+        for frame in Score_card.get_frames(self)[:-1]:
             if Score_card._common_roll(frame):
                 score += reduce(
                     lambda x, y: x + y,
