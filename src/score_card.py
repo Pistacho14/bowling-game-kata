@@ -46,13 +46,13 @@ class ScoreCard:
         last_frame = list(self.pins[index:])
         last_numerical_frame = []
 
-        for roll in self.pins[
-            index : index + Pins.LAST_FRAME_ROLLS.value
-        ]:
+        for roll in self.pins[index : index + Pins.LAST_FRAME_ROLLS.value]:
             if roll == Pins.STRIKE.value:
                 last_numerical_frame.append(Pins.TOTAL_PINS.value)
             elif roll == Pins.SPAIR.value:
-                last_numerical_frame.append(Pins.TOTAL_PINS.value - last_numerical_frame[-1])
+                last_numerical_frame.append(
+                    Pins.TOTAL_PINS.value - last_numerical_frame[-1]
+                )
             else:
                 last_numerical_frame.append(int(roll))
 
@@ -62,9 +62,9 @@ class ScoreCard:
         return self.frames, self.clean_frames
 
     def score_calculator(self):
-        
+
         ScoreCard._split_frames(self)
-        
+
         score = 0
         score_card_index = 0
         for frame in self.frames[:-1]:
@@ -77,12 +77,8 @@ class ScoreCard:
                 score += 10 + self.clean_frames[score_card_index + 1][0]
                 score_card_index += 1
             else:
-                if ScoreCard._check_next_frame(
-                    self.clean_frames[score_card_index + 1]
-                ):
-                    score += 10 + sum(
-                        self.clean_frames[score_card_index + 1][0:2]
-                    )
+                if ScoreCard._check_next_frame(self.clean_frames[score_card_index + 1]):
+                    score += 10 + sum(self.clean_frames[score_card_index + 1][0:2])
                     score_card_index += 1
                 else:
                     score += (
