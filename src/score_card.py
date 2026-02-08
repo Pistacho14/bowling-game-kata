@@ -71,15 +71,22 @@ class Score_card:
     def score_calculator(self):
         score = 0
         score_card_index = 0
-        for frame in self.frames:
+        for frame in self.frames[:-1]:
             if Score_card._common_roll(frame):
-                score += reduce(lambda x, y: int(x) + int(y), frame)
+                score += reduce(lambda x, y: x + y, Score_card.get_numerical_frames(self)[score_card_index])
                 score_card_index += 1
-            elif frame[-1] == Pins.SPAIR.value[0]:
-                score += 10 + int(self.get_frames()[score_card_index + 1][0])
+            elif Score_card._spair_roll(frame):
+                score += 10 + Score_card.get_numerical_frames(self)[score_card_index + 1][0]
                 score_card_index += 1
             else:
-                continue
+                if Score_card._check_next_frame(self, score_card_index):
+                    score += 10 + sum(Score_card.get_numerical_frames(self)[score_card_index + 1][0:2])
+                    score_card_index += 1
+                else:
+                    score += 10 + Score_card.get_numerical_frames(self)[score_card_index + 1][0] + Score_card.get_numerical_frames(self)[score_card_index + 2][0]
+                    score_card_index += 1
+        
+        score += sum(Score_card.get_numerical_frames(self)[-1])
 
         return score
 
