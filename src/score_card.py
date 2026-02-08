@@ -32,22 +32,19 @@ class Score_card:
             roll = Score_card.get_pins(self)[index]
 
             if roll == Pins.STRIKE.value[0]:
-                frame = [Pins.STRIKE.value[0]]
-                numerical_frame = [Pins.TEN.value]
+                self.frames.append([Pins.STRIKE.value[0]])
+                self.clean_frames.append([Pins.TEN.value])
                 index += Pins.ROLLS_STRIKE.value
 
             elif Score_card.get_pins(self)[index + 1] == Pins.SPAIR.value[0]:
-                frame = [roll, Pins.SPAIR.value[0]]
-                numerical_frame = [int(roll), Pins.TEN.value - int(roll)]
+                self.frames.append([roll, Pins.SPAIR.value[0]])
+                self.clean_frames.append([int(roll), Pins.TEN.value - int(roll)])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
             else:
-                frame = [roll, Score_card.get_pins(self)[index + 1]]
-                numerical_frame = [int(roll), int(self.pins[index + 1])]
+                self.frames.append([roll, Score_card.get_pins(self)[index + 1]])
+                self.clean_frames.append([int(roll), int(self.pins[index + 1])])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
-
-            self.frames.append(frame)
-            self.clean_frames.append(numerical_frame)
 
         last_frame = list(self.pins[index : index + Pins.ROLLS_LAST_FRAME.value])
 
@@ -80,9 +77,7 @@ class Score_card:
                 )
                 score_card_index += 1
             elif Score_card._spair_roll(frame):
-                score += (
-                    10 + Score_card.get_clean_frames(self)[score_card_index + 1][0]
-                )
+                score += 10 + Score_card.get_clean_frames(self)[score_card_index + 1][0]
                 score_card_index += 1
             else:
                 if Score_card._check_next_frame(
