@@ -62,6 +62,9 @@ class ScoreCard:
         return self.frames, self.clean_frames
 
     def score_calculator(self):
+        
+        ScoreCard._split_frames(self)
+        
         score = 0
         score_card_index = 0
         for frame in ScoreCard.get_frames(self)[:-1]:
