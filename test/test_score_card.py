@@ -88,7 +88,7 @@ def test_symbol_zero():
 @pytest.mark.spare
 def test_spare_not_extra():
     # test spare not extra
-    pins = "9-3/613/815/-/8-7/8-"           # Este caso test no pasa por que en el turno 7 hay un "-" en la primera tirada.
+    pins = "9-3/613/815/-/8-7/8-"
     total = 121
     score_card = Score_card(pins)
     score_card._split_frames()
@@ -100,12 +100,14 @@ def test_strike():
     pins = "X9-9-9-9-9-9-9-9-9-"
     total = 100
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
     pins = "X9-X9-9-9-9-9-9-9-"
     total = 110
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.strike
 def test_two_strikes():
@@ -113,7 +115,8 @@ def test_two_strikes():
     pins = "XX9-9-9-9-9-9-9-9-"
     total = 120
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.strike
 def test_three_strikes():
@@ -121,7 +124,8 @@ def test_three_strikes():
     pins = "XXX9-9-9-9-9-9-9-"
     total = 141
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.extra_rolls
 def test_one_pin_in_extra_roll():
@@ -144,7 +148,8 @@ def test_two_strikes_in_extra_rolls():
     pins = "9-9-9-9-9-9-9-9-9-XXX"
     total = 111
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.extra_rolls
 def test_one_strike_in_extra_roll():
@@ -152,7 +157,8 @@ def test_one_strike_in_extra_roll():
     pins = "8/549-XX5/53639/9/X"
     total = 149
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.extra_rolls
 def test_spare_in_extra_roll():
@@ -160,7 +166,8 @@ def test_spare_in_extra_roll():
     pins = "X5/X5/XX5/--5/X5/"
     total = 175
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
 
 @pytest.mark.extra_rolls
 def test_triple_strike_before_extra_rolls():
@@ -169,4 +176,5 @@ def test_triple_strike_before_extra_rolls():
     pins = "XXXXXXXXXXXX"
     total = 300
     score_card = Score_card(pins)
-    assert score_card == total
+    score_card._split_frames()
+    assert score_card.score_calculator() == total
