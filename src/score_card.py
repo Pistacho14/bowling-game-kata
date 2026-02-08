@@ -47,7 +47,6 @@ class Score_card:
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
         last_frame = list(Score_card.get_pins(self)[index:])
-
         last_numerical_frame = []
 
         for roll in Score_card.get_pins(self)[
