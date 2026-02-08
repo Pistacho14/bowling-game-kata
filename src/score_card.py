@@ -31,13 +31,13 @@ class Score_card:
         for _ in range(9):
             roll = Score_card.get_pins(self)[index]
 
-            if roll == Pins.STRIKE.value[0]:
-                self.frames.append([Pins.STRIKE.value[0]])
+            if roll == Pins.STRIKE.value:
+                self.frames.append([Pins.STRIKE.value])
                 self.clean_frames.append([Pins.TEN.value])
                 index += Pins.ROLLS_STRIKE.value
 
-            elif Score_card.get_pins(self)[index + 1] == Pins.SPAIR.value[0]:
-                self.frames.append([roll, Pins.SPAIR.value[0]])
+            elif Score_card.get_pins(self)[index + 1] == Pins.SPAIR.value:
+                self.frames.append([roll, Pins.SPAIR.value])
                 self.clean_frames.append([int(roll), Pins.TEN.value - int(roll)])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
@@ -52,9 +52,9 @@ class Score_card:
         for roll in Score_card.get_pins(self)[
             index : index + Pins.ROLLS_LAST_FRAME.value
         ]:
-            if roll == Pins.STRIKE.value[0]:
+            if roll == Pins.STRIKE.value:
                 last_numerical_frame.append(Pins.TEN.value)
-            elif roll == Pins.SPAIR.value[0]:
+            elif roll == Pins.SPAIR.value:
                 last_numerical_frame.append(Pins.TEN.value - last_numerical_frame[-1])
             else:
                 last_numerical_frame.append(int(roll))
@@ -108,7 +108,7 @@ class Score_card:
 
     @staticmethod
     def _spair_roll(frame):
-        return frame[-1] == Pins.SPAIR.value[0]
+        return frame[-1] == Pins.SPAIR.value
 
     def __repr__(self):
         return Score_card.get_frames()
