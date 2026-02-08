@@ -1,7 +1,7 @@
 from .pins import Pins
 
 
-class Score_card:
+class ScoreCard:
     def __init__(self, pins):
         self.pins = pins.replace("-", "0")  # Reemplazar los fouls por 0
         self.frames = []
@@ -29,27 +29,27 @@ class Score_card:
         index = 0
 
         for _ in range(9):
-            roll = Score_card.get_pins(self)[index]
+            roll = ScoreCard.get_pins(self)[index]
 
             if roll == Pins.STRIKE.value:
                 self.frames.append([Pins.STRIKE.value])
                 self.clean_frames.append([Pins.TOTAL_PINS.value])
                 index += Pins.ROLLS_STRIKE.value
 
-            elif Score_card.get_pins(self)[index + 1] == Pins.SPAIR.value:
+            elif ScoreCard.get_pins(self)[index + 1] == Pins.SPAIR.value:
                 self.frames.append([roll, Pins.SPAIR.value])
                 self.clean_frames.append([int(roll), Pins.TOTAL_PINS.value - int(roll)])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
             else:
-                self.frames.append([roll, Score_card.get_pins(self)[index + 1]])
+                self.frames.append([roll, ScoreCard.get_pins(self)[index + 1]])
                 self.clean_frames.append([int(roll), int(self.pins[index + 1])])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
-        last_frame = list(Score_card.get_pins(self)[index:])
+        last_frame = list(ScoreCard.get_pins(self)[index:])
         last_numerical_frame = []
 
-        for roll in Score_card.get_pins(self)[
+        for roll in ScoreCard.get_pins(self)[
             index : index + Pins.LAST_FRAME_ROLLS.value
         ]:
             if roll == Pins.STRIKE.value:
@@ -69,32 +69,32 @@ class Score_card:
     def score_calculator(self):
         score = 0
         score_card_index = 0
-        for frame in Score_card.get_frames(self)[:-1]:
-            if Score_card._common_roll(frame):
+        for frame in ScoreCard.get_frames(self)[:-1]:
+            if ScoreCard._common_roll(frame):
                 score += sum(
-                    Score_card.get_clean_frames(self)[score_card_index],
+                    ScoreCard.get_clean_frames(self)[score_card_index],
                 )
                 score_card_index += 1
-            elif Score_card._spair_roll(frame):
-                score += 10 + Score_card.get_clean_frames(self)[score_card_index + 1][0]
+            elif ScoreCard._spair_roll(frame):
+                score += 10 + ScoreCard.get_clean_frames(self)[score_card_index + 1][0]
                 score_card_index += 1
             else:
-                if Score_card._check_next_frame(
-                    Score_card.get_clean_frames(self)[score_card_index + 1]
+                if ScoreCard._check_next_frame(
+                    ScoreCard.get_clean_frames(self)[score_card_index + 1]
                 ):
                     score += 10 + sum(
-                        Score_card.get_clean_frames(self)[score_card_index + 1][0:2]
+                        ScoreCard.get_clean_frames(self)[score_card_index + 1][0:2]
                     )
                     score_card_index += 1
                 else:
                     score += (
                         10
-                        + Score_card.get_clean_frames(self)[score_card_index + 1][0]
-                        + Score_card.get_clean_frames(self)[score_card_index + 2][0]
+                        + ScoreCard.get_clean_frames(self)[score_card_index + 1][0]
+                        + ScoreCard.get_clean_frames(self)[score_card_index + 2][0]
                     )
                     score_card_index += 1
 
-        score += sum(Score_card.get_clean_frames(self)[-1])
+        score += sum(ScoreCard.get_clean_frames(self)[-1])
 
         return score
 
@@ -111,4 +111,4 @@ class Score_card:
         return frame[-1] == Pins.SPAIR.value
 
     def __repr__(self):
-        return Score_card.get_frames()
+        return ScoreCard.get_frames()
