@@ -26,14 +26,14 @@ class ScoreCard:
         index = 0
 
         for _ in range(9):
-            roll = ScoreCard.get_pins(self)[index]
+            roll = self.pins[index]
 
             if roll == Pins.STRIKE.value:
                 self.frames.append([Pins.STRIKE.value])
                 self.clean_frames.append([Pins.TOTAL_PINS.value])
                 index += Pins.ROLLS_STRIKE.value
 
-            elif ScoreCard.get_pins(self)[index + 1] == Pins.SPAIR.value:
+            elif self.pins[index + 1] == Pins.SPAIR.value:
                 self.frames.append([roll, Pins.SPAIR.value])
                 self.clean_frames.append([int(roll), Pins.TOTAL_PINS.value - int(roll)])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
@@ -43,10 +43,10 @@ class ScoreCard:
                 self.clean_frames.append([int(roll), int(self.pins[index + 1])])
                 index += Pins.NORMAL_FRAMES_ROLLS.value
 
-        last_frame = list(ScoreCard.get_pins(self)[index:])
+        last_frame = list(self.pins[index:])
         last_numerical_frame = []
 
-        for roll in ScoreCard.get_pins(self)[
+        for roll in self.pins[
             index : index + Pins.LAST_FRAME_ROLLS.value
         ]:
             if roll == Pins.STRIKE.value:
@@ -67,32 +67,32 @@ class ScoreCard:
         
         score = 0
         score_card_index = 0
-        for frame in ScoreCard.get_frames(self)[:-1]:
+        for frame in self.frames[:-1]:
             if ScoreCard._common_roll(frame):
                 score += sum(
-                    ScoreCard.get_clean_frames(self)[score_card_index],
+                    self.clean_frames[score_card_index],
                 )
                 score_card_index += 1
             elif ScoreCard._spair_roll(frame):
-                score += 10 + ScoreCard.get_clean_frames(self)[score_card_index + 1][0]
+                score += 10 + self.clean_frames[score_card_index + 1][0]
                 score_card_index += 1
             else:
                 if ScoreCard._check_next_frame(
-                    ScoreCard.get_clean_frames(self)[score_card_index + 1]
+                    self.clean_frames[score_card_index + 1]
                 ):
                     score += 10 + sum(
-                        ScoreCard.get_clean_frames(self)[score_card_index + 1][0:2]
+                        self.clean_frames[score_card_index + 1][0:2]
                     )
                     score_card_index += 1
                 else:
                     score += (
                         10
-                        + ScoreCard.get_clean_frames(self)[score_card_index + 1][0]
-                        + ScoreCard.get_clean_frames(self)[score_card_index + 2][0]
+                        + self.clean_frames[score_card_index + 1][0]
+                        + self.clean_frames[score_card_index + 2][0]
                     )
                     score_card_index += 1
 
-        score += sum(ScoreCard.get_clean_frames(self)[-1])
+        score += sum(self.clean_frames[-1])
 
         return score
 
