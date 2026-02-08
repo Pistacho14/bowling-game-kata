@@ -1,6 +1,7 @@
 import pytest
 from src.score_card import ScoreCard
 
+
 @pytest.mark.extra_rolls
 def test_frames_extra_roll():
     pins = "1212121212121212129/1"
@@ -8,10 +9,18 @@ def test_frames_extra_roll():
     score_card._split_frames()
     frames = score_card.get_frames()
     assert frames == [
-        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
-        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
-        ['9', '/', '1']
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["9", "/", "1"],
     ]
+
 
 @pytest.mark.state_n
 def test_frames_rolls():
@@ -20,10 +29,18 @@ def test_frames_rolls():
     score_card._split_frames()
     frames = score_card.get_frames()
     assert frames == [
-        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
-        ['1', '2'], ['1', '2'], ['1', '2'], ['1', '2'],
-        ['9', '0']
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["1", "2"],
+        ["9", "0"],
     ]
+
 
 @pytest.mark.state_n
 def test_numerical_frames_rolls():
@@ -32,10 +49,18 @@ def test_numerical_frames_rolls():
     score_card._split_frames()
     frames = score_card.get_clean_frames()
     assert frames == [
-        [1, 2], [1, 2], [1, 2], [1, 2], [1, 2],
-        [1, 2], [1, 2], [1, 2], [1, 2],
-        [9, 0]
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [9, 0],
     ]
+
 
 @pytest.mark.state_n
 def test_numerical_frames_rolls_strike():
@@ -44,10 +69,18 @@ def test_numerical_frames_rolls_strike():
     score_card._split_frames()
     frames = score_card.get_clean_frames()
     assert frames == [
-        [10], [1, 2], [10], [1, 2], [1, 2],
-        [1, 2], [1, 2], [1, 2], [1, 2],
-        [9, 0]
+        [10],
+        [1, 2],
+        [10],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [9, 0],
     ]
+
 
 @pytest.mark.state_n
 def test_numerical_frames_rolls_spare():
@@ -56,16 +89,25 @@ def test_numerical_frames_rolls_spare():
     score_card._split_frames()
     frames = score_card.get_clean_frames()
     assert frames == [
-        [1, 9], [1, 2], [1, 9], [1, 2], [1, 2],
-        [1, 2], [1, 2], [1, 2], [1, 2],
-        [9, 0]
+        [1, 9],
+        [1, 2],
+        [1, 9],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [1, 2],
+        [9, 0],
     ]
-    
+
+
 @pytest.mark.state_n
 def test_hitting_pins_regular():
     pins, total = "12345123451234512345", 60
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
+
 
 @pytest.mark.state_n
 def test_symbol_zero():
@@ -77,11 +119,13 @@ def test_symbol_zero():
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
 
+
 @pytest.mark.spare
 def test_spare_not_extra():
     pins, total = "9-3/613/815/-/8-7/8-", 121
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
+
 
 @pytest.mark.strike
 def test_strike():
@@ -93,17 +137,20 @@ def test_strike():
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
 
+
 @pytest.mark.strike
 def test_two_strikes():
     pins, total = "XX9-9-9-9-9-9-9-9-", 120
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
 
+
 @pytest.mark.strike
 def test_three_strikes():
     pins, total = "XXX9-9-9-9-9-9-9-", 141
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
+
 
 @pytest.mark.extra_rolls
 def test_one_pin_in_extra_roll():
@@ -115,11 +162,13 @@ def test_one_pin_in_extra_roll():
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
 
+
 @pytest.mark.extra_rolls
 def test_two_strikes_in_extra_rolls():
     pins, total = "9-9-9-9-9-9-9-9-9-XXX", 111
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
+
 
 @pytest.mark.extra_rolls
 def test_one_strike_in_extra_roll():
@@ -127,11 +176,13 @@ def test_one_strike_in_extra_roll():
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
 
+
 @pytest.mark.extra_rolls
 def test_spare_in_extra_roll():
     pins, total = "X5/X5/XX5/--5/X5/", 175
     score_card = ScoreCard(pins)
     assert score_card.score_calculator() == total
+
 
 @pytest.mark.extra_rolls
 def test_triple_strike_before_extra_rolls():
