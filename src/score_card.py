@@ -54,7 +54,9 @@ class Score_card:
 
         last_numerical_frame = []
 
-        for roll in Score_card.get_pins(self)[index : index + Pins.ROLLS_LAST_FRAME.value]:
+        for roll in Score_card.get_pins(self)[
+            index : index + Pins.ROLLS_LAST_FRAME.value
+        ]:
             if roll == Pins.STRIKE.value[0]:
                 last_numerical_frame.append(Pins.TEN.value)
             elif roll == Pins.SPAIR.value[0]:
@@ -85,7 +87,9 @@ class Score_card:
                 )
                 score_card_index += 1
             else:
-                if Score_card._check_next_frame(Score_card.get_numerical_frames(self)[score_card_index + 1]):
+                if Score_card._check_next_frame(
+                    Score_card.get_numerical_frames(self)[score_card_index + 1]
+                ):
                     score += 10 + sum(
                         Score_card.get_numerical_frames(self)[score_card_index + 1][0:2]
                     )
@@ -104,11 +108,7 @@ class Score_card:
 
     @staticmethod
     def _check_next_frame(next_frame):
-        return (
-            True
-            if len(next_frame) >= 2
-            else False
-        )
+        return True if len(next_frame) >= 2 else False
 
     @staticmethod
     def _common_roll(frame):
